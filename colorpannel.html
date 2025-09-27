@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Water Quality Monitoring</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8f9fa;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        color: #222;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .parameter {
+        margin-bottom: 25px;
+      }
+      label {
+        font-weight: 500;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+
+      .color-panel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+        gap: 6px;
+      }
+      .color-swatch {
+        height: 45px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 500;
+        font-size: 12px;
+        border: 2px solid #ddd;
+        transition: transform 0.2s, border 0.2s;
+        position: relative;
+      }
+      .color-swatch:hover {
+        transform: scale(1.05);
+      }
+      .selected {
+        border: 3px solid #444;
+      }
+
+      .color-swatch span.tooltip {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 3px 6px;
+        font-size: 11px;
+        position: absolute;
+        bottom: 55px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 10;
+      }
+      .color-swatch:hover span.tooltip {
+        visibility: visible;
+      }
+
+      select {
+        padding: 6px 10px;
+        font-size: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      #submitBtn {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        display: block;
+        margin: 20px auto 0;
+        width: 100%;
+        max-width: 300px;
+      }
+      #submitBtn:hover {
+        background-color: #0056b3;
+      }
+
+      #output {
+        margin-top: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #007bff;
+        background: #e9f0ff;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #cce0ff;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Water Quality Monitoring Panel</h2>
+
+      <div class="parameter">
+        <label>pH Level:</label>
+        <div class="color-panel" id="phPanel"></div>
+      </div>
+
+      <div class="parameter">
+        <label>Turbidity (NTU):</label>
+        <div class="color-panel" id="turbidityPanel"></div>
+      </div>
+
+      <div class="parameter">
+        <label>Nitrate Level (mg/L):</label>
+        <div class="color-panel" id="nitratePanel"></div>
+      </div>
+
+      <div class="parameter">
+        <label>TDS (ppm):</label>
+        <div class="color-panel" id="tdsPanel"></div>
+      </div>
+
+      <div class="parameter">
+        <label>Dissolved Oxygen (mg/L):</label>
+        <div class="color-panel" id="doPanel"></div>
+      </div>
+
+      <div class="parameter">
+        <label>Coliform Presence:</label>
+        <select id="coliform">
+          <option value="not-detected">Not Detected</option>
+          <option value="detected">Detected</option>
+        </select>
+      </div>
+
+      <button id="submitBtn">Predict Disease</button>
+      <div id="output"></div>
+    </div>
+
+    <script>
+      // --- Many color shades for formal precision ---
+      const phScale = [
+        { v: 4.0, color: "#f44336" },
+        { v: 4.2, color: "#f55e57" },
+        { v: 4.4, color: "#f67280" },
+        { v: 4.6, color: "#f8a5c2" },
+        { v: 4.8, color: "#fbc4ab" },
+        { v: 5.0, color: "#ffcc80" },
+        { v: 5.2, color: "#ffe082" },
+        { v: 5.4, color: "#fff176" },
+        { v: 5.6, color: "#dce775" },
+        { v: 5.8, color: "#aed581" },
+        { v: 6.0, color: "#81c784" },
+        { v: 6.2, color: "#66bb6a" },
+        { v: 6.4, color: "#4db6ac" },
+        { v: 6.6, color: "#4dd0e1" },
+        { v: 6.8, color: "#29b6f6" },
+        { v: 7.0, color: "#03a9f4" },
+        { v: 7.2, color: "#039be5" },
+        { v: 7.4, color: "#0288d1" },
+        { v: 7.6, color: "#0277bd" },
+        { v: 7.8, color: "#512da8" },
+        { v: 8.0, color: "#673ab7" },
+        { v: 8.2, color: "#7e57c2" },
+        { v: 8.4, color: "#9575cd" },
+        { v: 8.6, color: "#b39ddb" },
+        { v: 8.8, color: "#ce93d8" },
+        { v: 9.0, color: "#e1bee7" },
+      ];
+
+      const turbidityScale = [
+        { v: 0, color: "#aed581" },
+        { v: 2, color: "#dce775" },
+        { v: 4, color: "#fff176" },
+        { v: 6, color: "#ffd54f" },
+        { v: 8, color: "#ffb74d" },
+        { v: 10, color: "#ff8a65" },
+        { v: 15, color: "#f06292" },
+        { v: 20, color: "#e57373" },
+      ];
+
+      const nitrateScale = [
+        { v: 0, color: "#aed581" },
+        { v: 1, color: "#dce775" },
+        { v: 2, color: "#fff176" },
+        { v: 3, color: "#ffd54f" },
+        { v: 4, color: "#ffb74d" },
+        { v: 5, color: "#ff8a65" },
+        { v: 7, color: "#f06292" },
+        { v: 10, color: "#e57373" },
+      ];
+
+      const tdsScale = [
+        { v: 0, color: "#aed581" },
+        { v: 100, color: "#dce775" },
+        { v: 200, color: "#fff176" },
+        { v: 400, color: "#ffd54f" },
+        { v: 600, color: "#ffb74d" },
+        { v: 800, color: "#ff8a65" },
+        { v: 1200, color: "#f06292" },
+        { v: 1500, color: "#e57373" },
+        { v: 2000, color: "#d32f2f" },
+      ];
+
+      const doScale = [
+        { v: 0, color: "#e57373" },
+        { v: 1, color: "#f06292" },
+        { v: 2, color: "#ff8a65" },
+        { v: 3, color: "#ffb74d" },
+        { v: 4, color: "#ffd54f" },
+        { v: 5, color: "#fff176" },
+        { v: 6, color: "#dce775" },
+        { v: 7, color: "#aed581" },
+        { v: 8, color: "#81c784" },
+        { v: 9, color: "#4db6ac" },
+        { v: 10, color: "#29b6f6" },
+      ];
+
+      // --- Create panel function with tooltip ---
+      function createColorPanel(panelId, scale) {
+        const panel = document.getElementById(panelId);
+        scale.forEach((item) => {
+          const div = document.createElement("div");
+          div.className = "color-swatch";
+          div.style.backgroundColor = item.color;
+          div.innerHTML = `<span class="tooltip">${item.v}</span>`;
+          div.addEventListener("click", () => {
+            panel.dataset.selected = item.v;
+            panel
+              .querySelectorAll(".color-swatch")
+              .forEach((s) => s.classList.remove("selected"));
+            div.classList.add("selected");
+          });
+          panel.appendChild(div);
+        });
+      }
+
+      // --- Initialize all panels ---
+      createColorPanel("phPanel", phScale);
+      createColorPanel("turbidityPanel", turbidityScale);
+      createColorPanel("nitratePanel", nitrateScale);
+      createColorPanel("tdsPanel", tdsScale);
+      createColorPanel("doPanel", doScale);
+
+      // --- Disease prediction logic ---
+      document.getElementById("submitBtn").addEventListener("click", () => {
+        const ph = parseFloat(
+          document.getElementById("phPanel").dataset.selected
+        );
+        const turbidity = parseFloat(
+          document.getElementById("turbidityPanel").dataset.selected
+        );
+        const nitrate = parseFloat(
+          document.getElementById("nitratePanel").dataset.selected
+        );
+        const tds = parseFloat(
+          document.getElementById("tdsPanel").dataset.selected
+        );
+        const doVal = parseFloat(
+          document.getElementById("doPanel").dataset.selected
+        );
+        const coliform = document.getElementById("coliform").value;
+
+        if (!ph || !turbidity || !nitrate || !tds || !doVal) {
+          alert("Please select all parameters.");
+          return;
+        }
+
+        let diseases = [];
+        if (coliform === "detected")
+          diseases.push("Diarrhea / Gastrointestinal Disease");
+        if (nitrate >= 10)
+          diseases.push("Methemoglobinemia (Blue Baby Syndrome)");
+        if (ph < 6.5 || ph > 8.5)
+          diseases.push("Stomach irritation / Acidity Issues");
+        if (tds > 1000) diseases.push("Kidney / Heart Risk");
+        if (doVal < 4) diseases.push("Aquatic Stress / Low Oxygen Risk");
+        if (turbidity > 20) diseases.push("Contaminated / Possible Pathogens");
+
+        if (diseases.length === 0) diseases.push("Safe Water");
+
+        document.getElementById(
+          "output"
+        ).innerHTML = `Predicted Risks:<br><b>${diseases.join(", ")}</b>`;
+        console.log({ ph, turbidity, nitrate, tds, doVal, coliform, diseases });
+      });
+    </script>
+  </body>
+</html>

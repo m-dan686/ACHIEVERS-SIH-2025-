@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Aqua Health Alert Yantra - Community Awareness</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #e6f7ff, #ffffff);
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      header {
+        background: #0077b6;
+        color: white;
+        padding: 20px;
+        font-size: 22px;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+      }
+      .container {
+        margin: 40px auto;
+        max-width: 700px;
+        padding: 20px;
+      }
+      h2 {
+        color: #0077b6;
+        margin-bottom: 20px;
+      }
+      .card {
+        background: white;
+        margin: 15px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: left;
+      }
+      .card h3 {
+        color: #023e8a;
+      }
+      .card p {
+        font-size: 15px;
+        color: #444;
+      }
+      .tips {
+        background: #d1f7d6;
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: left;
+      }
+      select,
+      button {
+        padding: 10px 15px;
+        margin: 15px 5px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+      button {
+        background: #0077b6;
+        color: white;
+        border: none;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #023e8a;
+      }
+    </style>
+  </head>
+  <body>
+    <header>Smart Aqua Health Alert Yantra</header>
+
+    <div class="container">
+      <h2 id="title">Community Awareness</h2>
+
+      <label for="language">Select Language:</label>
+      <select id="language" onchange="changeLanguage()">
+        <option value="en" selected>English</option>
+        <option value="hi">Hindi</option>
+        <option value="as">Assamese</option>
+      </select>
+
+      <div class="card">
+        <h3 id="cholera-title">💧 Cholera</h3>
+        <p id="cholera-desc">
+          Spread through contaminated water. Causes diarrhea and dehydration.
+          <strong>Prevention:</strong> Boil water before drinking, wash hands
+          regularly.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 id="typhoid-title">🤒 Typhoid</h3>
+        <p id="typhoid-desc">
+          Caused by bacteria in unsafe water and food. Symptoms: fever,
+          weakness, stomach pain. <strong>Prevention:</strong> Drink clean
+          water, maintain hygiene, avoid street food.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 id="hepatitis-title">🦠 Hepatitis A</h3>
+        <p id="hepatitis-desc">
+          Spread by consuming unsafe water and food. Symptoms: fever, jaundice,
+          nausea. <strong>Prevention:</strong> Safe water, proper sanitation,
+          vaccination.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 id="diarrhea-title">🚱 Diarrhea</h3>
+        <p id="diarrhea-desc">
+          Common water-borne disease in children. Can cause dehydration.
+          <strong>Prevention:</strong> ORS solution, safe drinking water, good
+          hygiene.
+        </p>
+      </div>
+
+      <div class="tips" id="tips">
+        <h3>✅ General Preventive Tips</h3>
+        <ul id="tips-list">
+          <li>Always boil or filter drinking water.</li>
+          <li>Wash hands before eating and after using toilets.</li>
+          <li>Store water in clean, covered containers.</li>
+          <li>Report suspected water contamination to local health workers.</li>
+        </ul>
+      </div>
+
+      <button onclick="window.location.href='index.html'">
+        🔙 Back to Home
+      </button>
+    </div>
+
+    <script>
+      const translations = {
+        hi: {
+          title: "सामुदायिक जागरूकता",
+          choleraTitle: "💧 कॉलरा",
+          choleraDesc:
+            "संक्रमित पानी से फैलता है। दस्त और निर्जलीकरण का कारण बनता है। <strong>रोकथाम:</strong> पीने से पहले पानी उबालें, नियमित रूप से हाथ धोएं।",
+          typhoidTitle: "🤒 टाइफाइड",
+          typhoidDesc:
+            "असुरक्षित पानी और भोजन में बैक्टीरिया से होता है। लक्षण: बुखार, कमजोरी, पेट दर्द। <strong>रोकथाम:</strong> साफ पानी पिएं, स्वच्छता बनाए रखें, सड़क का खाना न खाएं।",
+          hepatitisTitle: "🦠 हेपेटाइटिस A",
+          hepatitisDesc:
+            "असुरक्षित पानी और भोजन से फैलता है। लक्षण: बुखार, पीलिया, मतली। <strong>रोकथाम:</strong> सुरक्षित पानी, उचित स्वच्छता, टीकाकरण।",
+          diarrheaTitle: "🚱 दस्त",
+          diarrheaDesc:
+            "बच्चों में आम जलजनित रोग। निर्जलीकरण का कारण बन सकता है। <strong>रोकथाम:</strong> ORS समाधान, सुरक्षित पेयजल, अच्छी स्वच्छता।",
+          tips: [
+            "हमेशा पानी को उबालें या फ़िल्टर करें।",
+            "खाने से पहले और शौच के बाद हाथ धोएं।",
+            "पानी को साफ और ढके हुए कंटेनरों में रखें।",
+            "संभावित पानी के दूषित होने की सूचना स्थानीय स्वास्थ्य कार्यकर्ताओं को दें।",
+          ],
+        },
+        as: {
+          title: "সমাজিক সচেতনতা",
+          choleraTitle: "💧 কলেরা",
+          choleraDesc:
+            "দূষিত পানীৰে সৰবৰাহ হয়। ডায়ৰিয়া আৰু পানী-হীনতাৰ সমস্যা। <strong>সাৱধানতা:</strong> পানী খোৱাৰ আগতে উতালি, হাত ধোৱা।",
+          typhoidTitle: "🤒 টাইফয়েড",
+          typhoidDesc:
+            "অসমাপ্ত পানী আৰু খাদ্যৰ ব্যাকটেৰিয়াৰ ফলত। লক্ষণ: জ্বৰ, দূৰ্বলতা, পেটৰ ব্যথা। <strong>সাৱধানতা:</strong> চাফা পানী খোৱা, পৰিস্কাৰ ৰখা, পথৰ খাদ্য নাখোৱা।",
+          hepatitisTitle: "🦠 হেপাটাইটিছ A",
+          hepatitisDesc:
+            "অসমাপ্ত পানী আৰু খাদ্যৰ ফলত সংক্রমণ। লক্ষণ: জ্বৰ, জণ্ডিছ, বমি। <strong>সাৱধানতা:</strong> নিৰাপদ পানী, সঠিক পৰিস্কাৰ, টীকা।",
+          diarrheaTitle: "🚱 দস্ত",
+          diarrheaDesc:
+            "শিশুৰ মাজত সাধাৰণ জলজনিত ৰোগ। পানী-হীনতাৰ সম্ভাৱনা। <strong>সাৱধানতা:</strong> ORS, নিরাপদ পানী, ভাল পৰিস্কাৰ।",
+          tips: [
+            "সদায় পানী উতালি বা ফিল্টাৰ কৰক।",
+            "খোৱাৰ পূৰ্বে আৰু শৌচৰ পিছত হাত ধুয়ক।",
+            "পানী চাফা আৰু ঢাকনি থকা কন্টেইনাৰত ৰাখক।",
+            "পানী দূষিত হলে স্থানীয় স্বাস্থ্য কৰ্মীক জনাওক।",
+          ],
+        },
+      };
+
+      function changeLanguage() {
+        const lang = document.getElementById("language").value;
+        const t = translations[lang];
+
+        document.getElementById("title").innerHTML = t.title;
+        document.getElementById("cholera-title").innerHTML = t.choleraTitle;
+        document.getElementById("cholera-desc").innerHTML = t.choleraDesc;
+        document.getElementById("typhoid-title").innerHTML = t.typhoidTitle;
+        document.getElementById("typhoid-desc").innerHTML = t.typhoidDesc;
+        document.getElementById("hepatitis-title").innerHTML = t.hepatitisTitle;
+        document.getElementById("hepatitis-desc").innerHTML = t.hepatitisDesc;
+        document.getElementById("diarrhea-title").innerHTML = t.diarrheaTitle;
+        document.getElementById("diarrhea-desc").innerHTML = t.diarrheaDesc;
+
+        const tipsList = document.getElementById("tips-list");
+        tipsList.innerHTML = "";
+        t.tips.forEach((tip) => {
+          let li = document.createElement("li");
+          li.innerHTML = tip;
+          tipsList.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>
